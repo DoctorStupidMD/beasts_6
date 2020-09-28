@@ -24,7 +24,7 @@
 // It should handle first arguments that the native toFixed() method is unable to accurately round.
 
 
-function betterRound(number, precision) {
+function betterRound(value, precision) {
   // If no second argument, default to 2.
   if (precision === undefined) {
     precision = 2;
@@ -32,23 +32,28 @@ function betterRound(number, precision) {
     Math.round(Math.abs(precision));
   }
 
-  var power = Math.pow(10, precision);
+  var power = Math.pow(10, precision); 
 
-  // Can handle a string in the number parametre.
-  if (!Number.isInteger(number)) {
+  // Can handle a string in the value parametre.
+  if (!Number.isInteger(value)) {
     // Convert to string for manipulation.
-    number = String(number);
+    value = String(value);
 
     // Three parts: integer on the left of decimal, decimal index, 
     // and digits on the right of decimal.
-    var decimalIndex = number.indexOf('.');
-    var wholeInteger = number.substring(0, decimalIndex);
-    var decimalNumbers = number.substring(decimalIndex + 1);
+    var decimalIndex = value.indexOf('.');
+    var wholeInteger = value.substring(0, decimalIndex);
+    var decimalNumbers = value.substring(decimalIndex + 1);
 
-    // While length of decimalNumbers is less than precision, 
+    // While length of decimalNumbers is less than precision,  
     // keep adding zeroes (still string) until equal.
-    while (decimalNumbers.length < precision) {
-      decimalNumbers += '0';
+    if (decimalNumbers.length < precision) {
+      while (decimalNumbers.length < precision) {
+        decimalNumbers += '0';
+      }
+      value = [wholeInteger, decimalNumbers];
+      var zeroesString = value.join('.');
+      return zeroesString;
     }
 
     // Insert decimal in the correct place within the decimalNumbers substring; 
@@ -58,13 +63,13 @@ function betterRound(number, precision) {
 
     // Concatenate the wholeInteger and decimalNumbers substrings; 
     // use the number parametre.
-    number = wholeInteger + decimalNumbers;
+    value = wholeInteger + decimalNumbers; 
 
     // Round the number result and divide by the power variable.
-    number = Math.round(number) / power;
+    value = Math.round(value) / power; 
   }
 
-  return number.toString();
+  return value.toString(); 
 }
 
 
@@ -79,7 +84,7 @@ tests({
   },
   'If second argument is greater than the provided decmial digits of the first argument, it should add zeroes accordingly.': function() {
     var result = betterRound(1.2, 5);
-    eq(result, 1.20000);
+    eq(result, "1.20000");
   },
   'If no second argument, the number of decimal digits should default to 2.': function() {
     var result = betterRound(1.256);
@@ -107,7 +112,7 @@ tests({
     eq(betterRound(-1.542), "-1.54"); 
   },
   'It should handle exponential numbers.': function() {
-    eq(betterRound(1.005e2, 2), "100.5");
+    eq(betterRound(1.005e2, 2), "100.50");
   },
   'It should handle first arguments that the native toFixed() method is unable to accurately round.': function() {
     eq(betterRound(0.615, 2), "0.62");
