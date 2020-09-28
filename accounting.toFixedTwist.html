@@ -64,9 +64,7 @@ function betterRound(number, precision) {
     number = Math.round(number) / power;
   }
 
-  // Use the native toFixed() method for final rounding, 
-  // which will now be accurate.
-  return number.toFixed(precision);
+  return number.toString();
 }
 
 
@@ -109,7 +107,7 @@ tests({
     eq(betterRound(-1.542), "-1.54"); 
   },
   'It should handle exponential numbers.': function() {
-    eq(betterRound(1.005e2, 2), "100.50");
+    eq(betterRound(1.005e2, 2), "100.5");
   },
   'It should handle first arguments that the native toFixed() method is unable to accurately round.': function() {
     eq(betterRound(0.615, 2), "0.62");
