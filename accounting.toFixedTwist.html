@@ -45,7 +45,8 @@ function betterRound(value, precision) {
     var wholeInteger = value.substring(0, decimalIndex);
     var decimalNumbers = value.substring(decimalIndex + 1);
 
-    // While length of decimalNumbers is less than precision,  
+    // Case 1: Zeroes handling (value does not require rounding).
+    // If/while length of decimalNumbers is less than precision,  
     // keep adding zeroes (still string) until equal.
     if (decimalNumbers.length < precision) {
       while (decimalNumbers.length < precision) {
@@ -56,6 +57,7 @@ function betterRound(value, precision) {
       return zeroesString;
     }
 
+    // Case 2: Value requires rounding.
     // Insert decimal in the correct place within the decimalNumbers substring; 
     // set to the variable.
     decimalNumbers = decimalNumbers.substring(0, precision) + '.' 
