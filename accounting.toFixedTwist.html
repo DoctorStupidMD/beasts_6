@@ -16,6 +16,7 @@
 // It should be able to accept a string as a first argument.
 // If second argument is greater than the provided decimal digits of the first argument, it should add zeroes accordingly.
 // If no second argument, the number of decimal digits should default to 2.
+// If second argument is a floating-point number, it should round to the nearest integer.
 // It should return a string of a rounded integer when the second argument is set to 0.
 // If first argument is a whole integer and second argument is greater than 0, it should add a decimal and decimal digits that correspond with the precision length. 
 // It should round up if the last digit is 5 or higher.
@@ -99,6 +100,10 @@ tests({
   'If no second argument, the number of decimal digits should default to 2.': function() {
     var result = betterRound(1.256);
     eq(result, "1.26");
+  },
+  'If second argument is a floating-point number, it should round to the nearest integer.': function() {
+    var result = betterRound(1.234, 1.7);
+    eq(result, "1.23");
   },
   'It should return a string of a rounded integer when the second argument is set to 0.': function() {
     var result = betterRound(1.256, 0);
