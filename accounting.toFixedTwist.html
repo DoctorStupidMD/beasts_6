@@ -31,7 +31,7 @@ function betterRound(value, precision) {
   if (precision === undefined) {
     precision = 2;
   } else {
-    Math.round(Math.abs(precision));
+    precision = Math.round(Math.abs(precision));
   }
 
   var power = Math.pow(10, precision); 
